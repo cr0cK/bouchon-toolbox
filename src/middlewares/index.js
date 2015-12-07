@@ -1,0 +1,1 @@
+export { setPaginationHeaders } from './setPaginationHeaders';
