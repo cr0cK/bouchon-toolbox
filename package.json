@@ -1,15 +1,14 @@
 {
   "name": "bouchon-toolbox",
   "version": "0.0.1",
-  "description": "Toolbox for Bouchon",
-  "main": "index.js",
+  "description": "A set of tools for Bouchon",
+  "main": "./dist/index.js",
   "scripts": {
     "lint": "eslint .",
     "test": "NODE_PATH=$NODE_PATH:./src mocha --compilers js:babel-core/register $(find . -name '*Spec.js')",
     "clean": "rm -rf dist",
-    "build": "babel --ignore '*Spec.js' -d dist src",
-    "release": "NODE_ENV=production npm run build",
-    "prepublish": "npm test && npm run clean && npm run release"
+    "build": "npm run clean && babel --ignore '*Spec.js' -d dist src",
+    "prepublish": "npm run build"
   },
   "author": "Alexis MINEAUD <alexis.mineaud@gmail.com>",
   "license": "MIT",
