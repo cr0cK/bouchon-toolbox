@@ -6,7 +6,7 @@ import { retrieve, create, updateOrCreate, update, delete_ } from './restful';
 
 const expect = chai.expect;
 
-describe('restful reducer', () => {
+describe('Reducers restful', () => {
   describe('retrieve()', () => {
     it('retrieves and sort data', () => {
       const state = [{
