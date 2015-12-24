@@ -32,5 +32,22 @@
     "eslint-plugin-babel": "^2.1.1",
     "eslint-plugin-react": "^3.10.0",
     "mocha": "^2.3.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cr0cK/bouchon-toolbox.git"
+  },
+  "keywords": [
+    "bouchon",
+    "mock",
+    "api",
+    "tool",
+    "reducer",
+    "selector",
+    "middleware"
+  ],
+  "bugs": {
+    "url": "https://github.com/cr0cK/bouchon-toolbox/issues"
+  },
+  "homepage": "https://github.com/cr0cK/bouchon-toolbox#readme"
 }
