@@ -226,6 +226,7 @@ describe('Reducers restful', () => {
         num: 4,
         title: 'title4',
         body: 'body4',
+        user_id: 42,
       }, {
         num: 5,
         body: 'body5',
@@ -247,6 +248,7 @@ describe('Reducers restful', () => {
           num: 4,
           title: 'title4 updated',
           body: null,
+          user_id: null,
         }, {
           num: 5,
           body: 'body5',

@@ -109,22 +109,22 @@ export const updateOrCreate = (
     ...body,
   };
 
+  const sanitizedEntity = (new SchemaObject(updatedEntity)).toObject();
+
   // set to null the properties that are not provided in body
   _.difference(Object.keys(existingEntity), Object.keys(body)).map(key => {
     if (key === idKey) {  // dont set to null the idKey
       return;
     }
-    updatedEntity[key] = null;
+    sanitizedEntity[key] = null;
   });
-
-  const sanitizedEntity = new SchemaObject(updatedEntity, {setUndefined: true});
 
   const newState = state.slice(0);
   _.remove(newState, entity => predicate(entity, params, idKey));
 
   return _.sortBy([
     ...newState,
-    sanitizedEntity.toObject(),
+    sanitizedEntity,
   ], idKey);
 };
 
