@@ -1,36 +1,6 @@
-/* eslint no-console: 0 */
-
 import _ from 'lodash';
 import { createSelector } from 'reselect';
 
-
-/**
- * Select one or severals rows from `selector` if the key `key` is equal to
- * `value`.
- *
- * @param  {Function}         Selector function (from reselect)
- * @param  {String}           key
- * @param  {String | Number}  value
- * @return {Object | Array}
- */
-export const selectRow = (selector, key, value) => {
-  if (_.isUndefined(selector) ||
-      _.isUndefined(key) ||
-      _.isUndefined(value)) {
-    return () => 'Bad arguments for `selectRow`';
-  }
-
-  return createSelector(
-    selector(),
-    rows => {
-      let result = _.groupBy(rows, key)[value];
-      if (_.isArray(result) && result.length === 1) {
-        result = result.pop();
-      }
-      return result;
-    }
-  );
-};
 
 /**
  * Return the results of `selector1` extended with results of `selector2`

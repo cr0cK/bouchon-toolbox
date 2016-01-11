@@ -1,1 +1,2 @@
-export { selectRow, extendRows } from './helpers';
+export { selectRow, selectRows } from './selectRows';
+export { extendRows } from './extendRows';
