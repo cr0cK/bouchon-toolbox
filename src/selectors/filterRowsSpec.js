@@ -3,12 +3,12 @@
 
 import chai from 'chai';
 
-import { selectRows } from './selectRows';
+import { filterRows } from './filterRows';
 
 
 const expect = chai.expect;
 
-describe('selectRows()', function() {
+describe('filterRows()', function() {
   this.dummySelector = () => state => state;
 
   this.rows = [{
@@ -46,7 +46,7 @@ describe('selectRows()', function() {
   }];
 
   it('returns an object if only one row matchs', () => {
-    const row = selectRows(this.dummySelector(), 'name', 'Obrien')(this.rows);
+    const row = filterRows(this.dummySelector(), 'name', 'Obrien')(this.rows);
 
     expect(row).to.deep.equal({
       id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
@@ -57,7 +57,7 @@ describe('selectRows()', function() {
   });
 
   it('returns an array if ouput type is Array and is only one row matchs', () => {
-    const row = selectRows(this.dummySelector(), 'name', 'Obrien', Array)(this.rows);
+    const row = filterRows(this.dummySelector(), 'name', 'Obrien', Array)(this.rows);
 
     expect(row).to.deep.equal([{
       id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
@@ -68,7 +68,7 @@ describe('selectRows()', function() {
   });
 
   it('returns an array of objects if several match', () => {
-    const row = selectRows(this.dummySelector(), 'name', 'Obrien')(this.rowsWithDuplicates);
+    const row = filterRows(this.dummySelector(), 'name', 'Obrien')(this.rowsWithDuplicates);
 
     expect(row).to.deep.equal([{
       id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
@@ -84,7 +84,7 @@ describe('selectRows()', function() {
   });
 
   it('returns undefined if it doesnt match', () => {
-    const row = selectRows(this.dummySelector(), 'name', 'blabla')(this.rows);
+    const row = filterRows(this.dummySelector(), 'name', 'blabla')(this.rows);
 
     expect(row).to.be.undefined;
   });
@@ -93,15 +93,15 @@ describe('selectRows()', function() {
     const dummySelector = () => state => state;
 
     expect(function() {
-      selectRows(undefined, 'name', 'blabla')(this.rows);
+      filterRows(undefined, 'name', 'blabla')(this.rows);
     }).to.throw(/function/);
 
     expect(function() {
-      selectRows(dummySelector(), undefined, 'blabla')(this.rows);
+      filterRows(dummySelector(), undefined, 'blabla')(this.rows);
     }).to.throw(/string/);
 
     expect(function() {
-      selectRows(dummySelector(), 'name', undefined)(this.rows);
+      filterRows(dummySelector(), 'name', undefined)(this.rows);
     }).to.throw(/defined/);
   });
 });

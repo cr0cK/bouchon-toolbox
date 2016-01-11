@@ -1,2 +1,2 @@
-export { selectRow, selectRows } from './selectRows';
+export { selectRow, filterRows } from './filterRows';
 export { extendRows } from './extendRows';

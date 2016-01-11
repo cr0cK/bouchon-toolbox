@@ -17,8 +17,8 @@ import { createSelector } from 'reselect';
  */
 export const selectRow = (selector, key, value) => {
   console.info(`
-\`selectRow\` is deprecated. Please use \`selectRows\` instead.
-Notice that \`selectRows\` doesn\'t call the selector by default, like \\createSelector\` from \`reselect\` does.
+\`selectRow\` is deprecated. Please use \`filterRows\` instead.
+Notice that \`filterRows\` doesn\'t call the selector by default, like \\createSelector\` from \`reselect\` does.
 `);
 
   if (_.isUndefined(selector) ||
@@ -40,7 +40,7 @@ Notice that \`selectRows\` doesn\'t call the selector by default, like \\createS
 };
 
 /**
- * Select row(s) from `selector` where the value of `key` is equal to `value`.
+ * Filter row(s) from `selector` where the value of `key` is equal to `value`.
  *
  * @param  {Function}         Selector function (`createSelector` from reselect)
  * @param  {String}           Key
@@ -49,7 +49,7 @@ Notice that \`selectRows\` doesn\'t call the selector by default, like \\createS
  *                            (if undefined, return an array or an object)
  * @return {Function}         Selector
  */
-export const selectRows = (selector, key, value, outputType) => {
+export const filterRows = (selector, key, value, outputType) => {
   if (!_.isFunction(selector)) {
     throw new Error('`selector` should be a function.');
   }
