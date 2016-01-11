@@ -32,7 +32,7 @@ selectors.byId = ({author}) => state => createSelector(
 It could be written easier:
 
 ```js
-import { selectors } from bouchon-toolbox';
+import { selectors } from 'bouchon-toolbox';
 const { filterRows } = selectors;
 
 const selectors = {};
@@ -47,7 +47,7 @@ For example, if you want to return the books of an author for a specific years
 (it can be the response of an url like `/books/:author/:date`), you can do like this:
 
 ```js
-import { selectors } from bouchon-toolbox';
+import { selectors } from 'bouchon-toolbox';
 const { filterRows } = selectors;
 
 const selectors = {};
