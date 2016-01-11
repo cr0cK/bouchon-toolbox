@@ -18,7 +18,7 @@ export const extendRows = (selector1, key1, selector2, key2, destKey, predicate)
   if (!_.isFunction(selector1) || !_.isFunction(selector2) ||
       !_.isString(key1) || !_.isString(key2) || !_.isString(destKey) ||
       (predicate !== undefined && !_.isFunction(predicate))) {
-    return () => 'Bad arguments for `extendRows`';
+    throw new Error('Bad arguments for `extendRows`.');
   }
 
   let predicateFunction = predicate;
@@ -30,8 +30,8 @@ export const extendRows = (selector1, key1, selector2, key2, destKey, predicate)
   }
 
   return createSelector(
-    selector1(),
-    selector2(),
+    selector1,
+    selector2,
     (rows1, rows2) => {
       return rows1.map(row1 => {
         const clonedRow1 = Object.assign({}, row1);

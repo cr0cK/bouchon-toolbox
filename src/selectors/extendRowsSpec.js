@@ -39,9 +39,9 @@ describe('extendRow()', function() {
 
   it('returns the list of articles with their author', () => {
     const rows = extendRows(
-      () => state => state.articles,
+      state => state.articles,
       'authorId',
-      () => state => state.authors,
+      state => state.authors,
       'id',
       'author'
     )({ articles, authors });
@@ -80,9 +80,9 @@ describe('extendRow()', function() {
     };
 
     const rows = extendRows(
-      () => state => state.articles,
+      state => state.articles,
       'authorCustomId',
-      () => state => state.authors,
+      state => state.authors,
       'id',
       'author',
       predicate,
@@ -116,6 +116,8 @@ describe('extendRow()', function() {
   });
 
   it('returns an error if an arg is invalid', () => {
-    expect(extendRows(undefined)(this.rows)).to.be.equal('Bad arguments for `extendRows`');
+    expect(function() {
+      extendRows(undefined)(this.rows);
+    }).to.throw(/arguments/);
   });
 });
