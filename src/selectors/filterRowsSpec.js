@@ -3,105 +3,125 @@
 
 import chai from 'chai';
 
-import { filterRows } from './filterRows';
+import { filterRow, filterRows } from './filterRows';
 
 
 const expect = chai.expect;
 
-describe('filterRows()', function() {
-  this.dummySelector = () => state => state;
+describe('Filter selectors', () => {
+  describe('filterRow()', function() {
+    this.dummySelector = () => state => state;
 
-  this.rows = [{
-    id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
-    vat_number: 'FR737217459',
-    name: 'Obrien',
-    siren: 745609300,
-  }, {
-    id: 'fb4a33bd-3eac-4c0a-bade-cbe27362ce5e',
-    vat_number: 'FR821490886',
-    name: 'Flynn',
-    siren: 270751769,
-  }, {
-    id: '8ff86eae-2d3c-47b1-a00a-966085409e54',
-    vat_number: 'FR570244964',
-    name: 'Le',
-    siren: 85922729,
-  }];
+    this.rows = [{
+      'last': 'Zimmerman',
+      'first': 'Fay',
+      'index': 1,
+    }, {
+      'last': 'Craft',
+      'first': 'Juliette',
+      'index': 2,
+    }, {
+      'last': 'Combs',
+      'first': 'Fay',
+      'index': 3,
+    }];
 
-  this.rowsWithDuplicates = [{
-    id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
-    vat_number: 'FR737217459',
-    name: 'Obrien',
-    siren: 745609300,
-  }, {
-    id: 'fb4a33bd-3eac-4c0a-bade-cbe27362ce5e',
-    vat_number: 'FR821490886',
-    name: 'Obrien',
-    siren: 270751769,
-  }, {
-    id: '8ff86eae-2d3c-47b1-a00a-966085409e54',
-    vat_number: 'FR570244964',
-    name: 'Le',
-    siren: 85922729,
-  }];
+    it('returns an empty object if no row matchs', () => {
+      const row = filterRow(this.dummySelector(), 'first', 'Obrien')(this.rows);
 
-  it('returns an object if only one row matchs', () => {
-    const row = filterRows(this.dummySelector(), 'name', 'Obrien')(this.rows);
+      expect(row).to.deep.equal({});
+    });
 
-    expect(row).to.deep.equal({
-      id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
-      vat_number: 'FR737217459',
-      name: 'Obrien',
-      siren: 745609300,
+    it('returns an object if one row matchs', () => {
+      const row = filterRow(this.dummySelector(), 'last', 'Zimmerman')(this.rows);
+
+      expect(row).to.deep.equal({
+        'last': 'Zimmerman',
+        'first': 'Fay',
+        'index': 1,
+      });
+    });
+
+    it('throw an error if several rows match', () => {
+      expect(function test() {
+        filterRow(this.dummySelector(), 'first', 'Fay')(this.rows);
+      }.bind(this)).to.throw(/Your selector should not return more than 1 row/);
+    });
+
+    it('throws some errors if an argument is invalid', () => {
+      expect(function() {
+        filterRows(undefined, 'first', 'blabla')(this.rows);
+      }.bind(this)).to.throw(/function/);
+
+      expect(function() {
+        filterRows(this.dummySelector(), undefined, 'blabla')(this.rows);
+      }.bind(this)).to.throw(/string/);
+
+      expect(function() {
+        filterRows(this.dummySelector(), 'first', undefined)(this.rows);
+      }.bind(this)).to.throw(/defined/);
     });
   });
 
-  it('returns an array if ouput type is Array and is only one row matchs', () => {
-    const row = filterRows(this.dummySelector(), 'name', 'Obrien', Array)(this.rows);
+  describe('filterRows()', function() {
+    this.dummySelector = () => state => state;
 
-    expect(row).to.deep.equal([{
-      id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
-      vat_number: 'FR737217459',
-      name: 'Obrien',
-      siren: 745609300,
-    }]);
-  });
-
-  it('returns an array of objects if several match', () => {
-    const row = filterRows(this.dummySelector(), 'name', 'Obrien')(this.rowsWithDuplicates);
-
-    expect(row).to.deep.equal([{
-      id: 'caa3eb5a-a0c5-4a48-b195-88a104471a6f',
-      vat_number: 'FR737217459',
-      name: 'Obrien',
-      siren: 745609300,
+    this.rows = [{
+      'last': 'Zimmerman',
+      'first': 'Fay',
+      'index': 1,
     }, {
-      id: 'fb4a33bd-3eac-4c0a-bade-cbe27362ce5e',
-      vat_number: 'FR821490886',
-      name: 'Obrien',
-      siren: 270751769,
-    }]);
-  });
+      'last': 'Craft',
+      'first': 'Juliette',
+      'index': 2,
+    }, {
+      'last': 'Combs',
+      'first': 'Fay',
+      'index': 3,
+    }];
 
-  it('returns undefined if it doesnt match', () => {
-    const row = filterRows(this.dummySelector(), 'name', 'blabla')(this.rows);
+    it('returns an empty array if no row matchs', () => {
+      const row = filterRows(this.dummySelector(), 'first', 'Obrien')(this.rows);
 
-    expect(row).to.be.undefined;
-  });
+      expect(row).to.deep.equal([]);
+    });
 
-  it('throws some errors if an argument is invalid', () => {
-    const dummySelector = () => state => state;
+    it('returns an array of one item if one row matchs', () => {
+      const row = filterRows(this.dummySelector(), 'last', 'Zimmerman')(this.rows);
 
-    expect(function() {
-      filterRows(undefined, 'name', 'blabla')(this.rows);
-    }).to.throw(/function/);
+      expect(row).to.deep.equal([{
+        'last': 'Zimmerman',
+        'first': 'Fay',
+        'index': 1,
+      }]);
+    });
 
-    expect(function() {
-      filterRows(dummySelector(), undefined, 'blabla')(this.rows);
-    }).to.throw(/string/);
+    it('returns an array of n items if several row matchs', () => {
+      const row = filterRows(this.dummySelector(), 'first', 'Fay')(this.rows);
 
-    expect(function() {
-      filterRows(dummySelector(), 'name', undefined)(this.rows);
-    }).to.throw(/defined/);
+      expect(row).to.deep.equal([{
+        'last': 'Zimmerman',
+        'first': 'Fay',
+        'index': 1,
+      }, {
+        'last': 'Combs',
+        'first': 'Fay',
+        'index': 3,
+      }]);
+    });
+
+    it('throws some errors if an argument is invalid', () => {
+      expect(function() {
+        filterRows(undefined, 'first', 'blabla')(this.rows);
+      }.bind(this)).to.throw(/function/);
+
+      expect(function() {
+        filterRows(this.dummySelector(), undefined, 'blabla')(this.rows);
+      }.bind(this)).to.throw(/string/);
+
+      expect(function() {
+        filterRows(this.dummySelector(), 'first', undefined)(this.rows);
+      }.bind(this)).to.throw(/defined/);
+    });
   });
 });
